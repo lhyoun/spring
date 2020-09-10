@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.sql.Connection;
+
+import javax.sql.DataSource;
+
 import org.junit.Test;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -14,13 +18,24 @@ import lombok.extern.log4j.Log4j;
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 @Log4j
 public class BoardMapperTest {
-	// mapper를 생성할 수 없어서 메소드에 접근할 수 없다. 아래의 @는 lombok의 기능인데 객체 생성없이 메소드를 사용할 수 있게 해준다
-	@Setter(onMethod_=@Autowired)
+/*	@Setter(onMethod_= @Autowired)
+	private DataSource dataSource;
+	
+	@Test
+	public void testConnection() {
+		try(Connection conn=dataSource.getConnection()){
+			log.info(conn);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}*/
+	
+	@Setter(onMethod_= @Autowired)
 	private BoardMapper mapper;
 	
 	@Test
 	public void testGList() {
 		mapper.getList().forEach(board->log.info(board));
 	}
-	
+
 }
