@@ -10,6 +10,8 @@
 </head>
 <body>
 
+<a href="register">새글쓰기</a>
+
 <table>
 	<tr>
 		<th>bno</th>
@@ -21,7 +23,7 @@
 	<c:forEach items="${list }" var="board">
 		<tr>
 			<td>${board.bno}</td>
-			<td>${board.title}</td>
+			<td><a href="get?bno=${board.bno}">${board.title}</a></td>
 			<td>${board.writer}</td>
 			<td><fmt:formatDate value="${board.regdate}"/></td>
 			<td><fmt:formatDate value="${board.updatedate}"/></td>

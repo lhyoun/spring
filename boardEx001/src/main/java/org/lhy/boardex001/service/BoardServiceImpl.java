@@ -19,7 +19,8 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void register(BoardVo board) {
 		// TODO Auto-generated method stub
-		boardMapper.insert(board);
+		//boardMapper.insert(board);
+		boardMapper.insertSelectKey(board);
 	}
 
 	@Override
