@@ -10,10 +10,13 @@ public interface BoardMapper {
 	//@Select("select * from board where bno>0")
 	public List<BoardVo> getList();
 	
-	public BoardVo getList2(int n);
+	public BoardVo read(Long bno);
 	
 	public void insert(BoardVo board);
 	
 	public void insertSelectKey(BoardVo board);
 	
+	public int update(BoardVo board);
+	
+	public int delete(Long bno);
 }

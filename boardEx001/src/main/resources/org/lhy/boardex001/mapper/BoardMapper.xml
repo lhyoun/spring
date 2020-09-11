@@ -9,8 +9,8 @@
     select * from board where bno > 0
   </select>
   
-  <select id="getList2" resultType="org.lhy.boardex001.domain.BoardVo" parameterType="int">
-    select * from board where bno = #{n}
+  <select id="read" resultType="org.lhy.boardex001.domain.BoardVo" parameterType="long">
+    select * from board where bno = #{bno}
   </select>
   
   <insert id="insert" parameterType="org.lhy.boardex001.domain.BoardVo">
@@ -23,5 +23,13 @@
   	</selectKey>
   	insert into board(bno, title, content, writer) values(#{bno}, #{title}, #{content}, #{writer})
   </insert>
+  
+  <delete id="delete">
+  	delete from board where bno=#{bno}
+  </delete>
+  
+  <update id="update">
+  	update board set title=#{title}, content=#{content}, writer=#{writer}, updatedate=sysdate where bno=#{bno}
+  </update>
   
 </mapper>

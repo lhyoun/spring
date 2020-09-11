@@ -40,8 +40,8 @@ public class BoardMapperTest {
 	}
 	
 	@Test
-	public void testGetList2() {
-		log.info(mapper.getList2(3));
+	public void testRead() {
+		log.info(mapper.read(1L));
 	}
 	
 	@Test
@@ -64,5 +64,27 @@ public class BoardMapperTest {
 		
 		mapper.insertSelectKey(board);
 		log.info(board);
+	}
+	
+	@Test
+	public void testUpdate() {
+		BoardVo board=new BoardVo();
+		board.setBno(1L);
+		board.setTitle("update 제목");
+		board.setContent("update 내용");
+		board.setWriter("update User");
+		int n=mapper.update(board);
+		if(n==1) {
+			log.info("업데이트 성공");
+		}
+		testGetList();
+	}
+	
+	@Test
+	public void testDelete() {
+		int n=mapper.delete(10L);
+		if(n==1) {
+			log.info("삭제 성공");
+		}
 	}
 }
