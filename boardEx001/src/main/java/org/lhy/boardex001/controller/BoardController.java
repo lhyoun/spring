@@ -3,7 +3,9 @@ package org.lhy.boardex001.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.lhy.boardex001.domain.BoardVo;
+import org.lhy.boardex001.mapper.BoardMapper;
 import org.lhy.boardex001.service.BoardService;
+import org.lhy.boardex001.service.BoardServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,8 @@ import lombok.extern.java.Log;
 @AllArgsConstructor
 public class BoardController {
 	//위에 @AllArgsConstructor 이게 없으면 @autowired 적어야 한다
+	BoardMapper boardMapper;
+	
 	private BoardService service;
 	
 	@GetMapping("/list")
