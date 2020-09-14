@@ -7,7 +7,7 @@ import org.lhy.boardex001.domain.BoardVo;
 
 public interface BoardMapper {
 	
-	// sql section factory를 만든다? 복잡한 쿼리는 xml에서
+	// sql session factory를 만든다? 복잡한 쿼리는 xml에서
 	//@Select("select * from board where bno>0")
 	public List<BoardVo> getList();
 	

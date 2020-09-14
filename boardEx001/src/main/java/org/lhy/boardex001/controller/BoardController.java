@@ -56,15 +56,23 @@ public class BoardController {
 	}
 	
 	@GetMapping("/remove")	// 삭제
-	public String remove(@RequestParam("bno") String bno) {
-		service.remove(Long.parseLong(bno));
-		return "redirect:/board/list";
+	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
+		if(service.remove(bno)) {
+			rttr.addFlashAttribute("result", "sucess");
+			return "redirect:/board/list";
+		}
+		else { 
+			return "redirect:/board/get";
+		}
 	}
 	
 	@PostMapping("/modify")	// 수정
-	public String modify(BoardVo board) {
-		service.modify(board);
+	public String modify(BoardVo board, RedirectAttributes rttr) {
+		if(service.modify(board)) {
+				rttr.addFlashAttribute("result", "sucess");
+		}
 		return "redirect:/board/list";
+		//return "list";
 	}
 	
 	/*@PostMapping("/update")
