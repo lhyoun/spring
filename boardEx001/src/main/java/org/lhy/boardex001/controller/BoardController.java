@@ -6,6 +6,8 @@ import org.lhy.boardex001.domain.BoardVo;
 import org.lhy.boardex001.mapper.BoardMapper;
 import org.lhy.boardex001.service.BoardService;
 import org.lhy.boardex001.service.BoardServiceImpl;
+import org.lhy.boardex001.util.Criteria;
+import org.lhy.boardex001.util.PageDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,11 +29,21 @@ public class BoardController {
 	
 	private BoardService service;
 	
-	@GetMapping("/list")
+	//@GetMapping("/list")
 	public void list(Model model) {
 		log.info("list");
 		model.addAttribute("list", service.getList());
 	}// void라서 mapping과 같은 값을 return
+	
+	@GetMapping("/list")
+	public void list(Criteria cri, Model model) {
+		log.info("list+Paging");
+		model.addAttribute("list", service.getList(cri));
+		
+		int total=service.getTotal();
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+	}
 	
 	@GetMapping("/register")
 	public void register() {
@@ -64,7 +76,7 @@ public class BoardController {
 	@GetMapping("/remove")	// 삭제
 	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
 		if(service.remove(bno)) {
-			rttr.addFlashAttribute("result", "sucess");
+			rttr.addFlashAttribute("result", bno+"삭제 성공");
 			return "redirect:/board/list";
 		}
 		else { 
@@ -75,7 +87,7 @@ public class BoardController {
 	@PostMapping("/modify")	// 수정
 	public String modify(BoardVo board, RedirectAttributes rttr) {
 		if(service.modify(board)) {
-				rttr.addFlashAttribute("result", "sucess");
+				rttr.addFlashAttribute("result", board.getBno()+"수정 성공");
 		}
 		return "redirect:/board/list";
 		//return "list";

@@ -47,10 +47,16 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-            
+
 <script type="text/javascript">
 $(document).ready(function(){
-	
+	var formObj=$("form");
+	$("button[data-oper='list']").on("click",function(){
+		formObj.attr("method","get");
+		formObj.attr("action","/board/list");
+		formObj.submit();
+		//location.href="/board/list";
+	});
 });
 </script>
 <%@ include file="../include/footer.jsp" %>

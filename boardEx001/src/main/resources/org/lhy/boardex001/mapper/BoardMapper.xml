@@ -6,7 +6,26 @@
 <mapper namespace="org.lhy.boardex001.mapper.BoardMapper">
   
   <select id="getList" resultType="org.lhy.boardex001.domain.BoardVo">
-    select * from board where bno > 0
+    select * from board where bno>0
+  </select>
+  
+  <select id="getListWithPaging" resultType="org.lhy.boardex001.domain.BoardVo">
+    <![CDATA[
+    	select rn, bno, title, content, writer, regdate, updatedate
+    	from( 
+    		select /*+INDEX_DESC(board pk_board)*/
+  			rownum rn, bno, title, content, writer, regdate, updatedate
+  			from board where rownum <=#{pageNum} * #{amount}
+  			)
+    	where rn>(#{pageNum}-1)*#{amount}
+    ]]>
+  </select>
+  
+  <select id="totalCount" resultType="int">
+  <![CDATA[
+  	select count(*) from board where bno>0
+  	]]>
+  	<!-- bno>0 하는 이유는 index를 사용해서 빠르게 가져오라고 -->
   </select>
   
   <select id="read" resultType="org.lhy.boardex001.domain.BoardVo" parameterType="long">

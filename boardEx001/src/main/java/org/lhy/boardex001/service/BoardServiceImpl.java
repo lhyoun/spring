@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.lhy.boardex001.domain.BoardVo;
 import org.lhy.boardex001.mapper.BoardMapper;
+import org.lhy.boardex001.util.Criteria;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -53,6 +54,18 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardVo> getList() {
 		// TODO Auto-generated method stub
 		return boardMapper.getList();
+	}
+
+	@Override
+	public List<BoardVo> getList(Criteria cri) {
+		// TODO Auto-generated method stub
+		return boardMapper.getListWithPaging(cri);
+	}
+
+	@Override
+	public int getTotal() {
+		// TODO Auto-generated method stub
+		return boardMapper.totalCount();
 	}
 	
 }

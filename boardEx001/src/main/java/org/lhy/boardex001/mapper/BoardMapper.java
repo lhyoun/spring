@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Select;
 import org.lhy.boardex001.domain.BoardVo;
+import org.lhy.boardex001.util.Criteria;
 
 public interface BoardMapper {
 	
@@ -11,6 +12,8 @@ public interface BoardMapper {
 	//@Select("select * from board where bno>0")
 	public List<BoardVo> getList();
 	
+	public List<BoardVo> getListWithPaging(Criteria cri);
+	// cri에 amount, page
 	public BoardVo read(Long bno);
 	
 	public void insert(BoardVo board);
@@ -20,4 +23,6 @@ public interface BoardMapper {
 	public int update(BoardVo board);
 	
 	public int delete(Long bno);
+	
+	public int totalCount();
 }
