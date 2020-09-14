@@ -43,7 +43,7 @@
 
 <body>
 
-    <div id="wrapper">
+    <div id="wrapper" style="border: 1px solid gold; height: 100%; min-height: 100px; overflow: auto;">
 
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">

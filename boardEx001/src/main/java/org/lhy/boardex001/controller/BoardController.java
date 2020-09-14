@@ -55,6 +55,12 @@ public class BoardController {
 		model.addAttribute("board", service.get(bno));
 	}
 	
+	@GetMapping("/modify")
+	public void modify(Long bno, Model model ) {
+		log.info("mofify(GetMapping)");
+		model.addAttribute("board", service.get(bno));
+	}
+	
 	@GetMapping("/remove")	// 삭제
 	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
 		if(service.remove(bno)) {
