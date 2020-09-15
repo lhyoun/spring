@@ -57,7 +57,7 @@
 								<option value="TWC" <c:out value="${pageMaker.cri.type eq 'TWC'?'selected':''}"/>>제목 or 작성자 or 내용</option>
 							</select> 
 							<input type="text" name="keyword" value="${pageMaker.cri.keyword}">
-							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+							<input type="hidden" name="pageNum" value="1">
 							<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
 							<button class="btn btn-default">Search</button>
 						</form>
@@ -236,7 +236,6 @@ $(document).ready(function(){
 			alert("키워드를 입력하세요");
 			return false;
 		}
-		
 		searchForm.submit();
 	});
 });
