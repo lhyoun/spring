@@ -17,6 +17,8 @@
 								
 								<input type="hidden" name='pageNum' value="${cri.pageNum}">
 								<input type="hidden" name='amount' value="${cri.amount}">
+								<input type="hidden" name='type' value="${cri.type}">
+								<input type="hidden" name='keyword' value="${cri.keyword}">
 								
 								<div class="form-grop">
 									<label>B	no</label>

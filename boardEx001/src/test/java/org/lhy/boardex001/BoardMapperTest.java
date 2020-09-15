@@ -88,11 +88,4 @@ public class BoardMapperTest {
 			log.info("삭제 성공");
 		}
 	}
-	
-	@Test
-	public void tt() {
-		log.info(mapper.totalCount());
-		log.info("list+Paging");
-	}
-	
 }

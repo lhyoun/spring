@@ -33,18 +33,36 @@ public class BoardController {
 		model.addAttribute("list", service.getList());
 	}// void라서 mapping과 같은 값을 return
 	
-	@GetMapping("/list")
+	
+	
+	/*@GetMapping("/list")
 	public void list(Criteria cri, Model model) {
 		log.info("-- list+Paging");
 		log.info("-- pagenum: "+cri.getPageNum());
 		log.info("-- amount: "+cri.getAmount());
 		model.addAttribute("list", service.getList(cri));
 		
-		int total=service.getTotal();
+		int total=service.getTotal(cri);
 
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
+	}*/
+	
+	@GetMapping("/list")
+	public void list(Criteria cri,Model model) {
+		//log.info("listPaging..........!:"+cri);
+		//log.info("typeArr:"+cri.getTypeArr());
+		
+		model.addAttribute("list",service.getList(cri));
+		
+		int total=service.getTotal(cri);
+		PageDTO pageDTO=new PageDTO(cri,total);
+		//log.info("pageDto"+pageDTO);
+		
+		model.addAttribute("pageMaker", pageDTO);
 	}
+	
+	
 	
 	@GetMapping("/register")
 	public void register() {
@@ -94,6 +112,8 @@ public class BoardController {
 		}
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		return "redirect:/board/list";	
 	}
 	
@@ -104,6 +124,8 @@ public class BoardController {
 		}
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		return "redirect:/board/list";
 		//return "list";
 	}// addFlashAttribute가 아니라 Attribute인 이유는 pageNum이랑 amount는 항상 가지고 다녀야 하기 때문
