@@ -1,7 +1,5 @@
 package org.lhy.boardex001.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import lombok.Getter;
 import lombok.ToString;
 

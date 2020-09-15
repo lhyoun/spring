@@ -14,7 +14,10 @@
                         <!-- /.panel-heading -->
 						<div class="panel-body">
 							<form role="form" action="/board/modify" method="post">
-							
+								
+								<input type="hidden" name='pageNum' value="${cri.pageNum}">
+								<input type="hidden" name='amount' value="${cri.amount}">
+								
 								<div class="form-grop">
 									<label>Bno</label>
 									<input class="form-control" name="bno" value="${board.bno}" readonly>
