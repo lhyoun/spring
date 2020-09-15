@@ -98,7 +98,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modify")	// 수정
-	public String modify(BoardVo board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+	public String modify(BoardVo board, Criteria cri, RedirectAttributes rttr) {
 		if(service.modify(board)) {
 				rttr.addFlashAttribute("result", board.getBno()+"수정 성공");
 		}
@@ -106,7 +106,7 @@ public class BoardController {
 		rttr.addAttribute("amount", cri.getAmount());
 		return "redirect:/board/list";
 		//return "list";
-	}
+	}// addFlashAttribute가 아니라 Attribute인 이유는 pageNum이랑 amount는 항상 가지고 다녀야 하기 때문
 	
 	/*@PostMapping("/update")
 	public String update(BoardVO board) {

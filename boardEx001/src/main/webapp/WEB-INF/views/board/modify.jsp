@@ -19,7 +19,7 @@
 								<input type="hidden" name='amount' value="${cri.amount}">
 								
 								<div class="form-grop">
-									<label>Bno</label>
+									<label>B	no</label>
 									<input class="form-control" name="bno" value="${board.bno}" readonly>
 								</div>
 								
@@ -39,7 +39,7 @@
 								</div>
 								
 								<button type="submit" data-oper="modify" class="btn btn-default">Modify Button</button>
-								<button type="button" data-oper="list" class="btn btn-default">List Button</button>
+								<button type="reset" data-oper="reset" class="btn btn-default">Reset Button</button>
 								
 							</form>
 						</div>
