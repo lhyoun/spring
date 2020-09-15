@@ -49,14 +49,13 @@
                         <div class="pull-right">
                         	<ul class="pagination">
                         		<c:if test="${pageMaker.prev}">
-	                        		<li class="pagination_button previous"><a href="#">Previous</a></li>
+	                        		<li class="pagination_button previous"><a href="/board/list?pageNum=${pageMaker.endPage-10}&amount=10">Previous</a></li>
                         		</c:if>
-                        		<%-- <c:forEach var="i" begin="${pageMaker.startPage}" end="${pageMaker.endPage}"> --%>
-                        		<c:forEach var="i" begin="1" end="10">
-                        			<li class="pagination_button"><a href="#">${i}</a></li>
+                        		<c:forEach var="i" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+                        			<li class="pagination_button"><a href="/board/list?pageNum=${i}&amount=10">${i}</a></li>
                         		</c:forEach>
                         		<c:if test="${pageMaker.next}">
-									<li class="pagination_button next"><a href="#">Next</a></li>                        		
+									<li class="pagination_button next"><a href="/board/list?pageNum=${pageMaker.startPage+10}&amount=10">Next</a></li>                        		
                         		</c:if>
                         	</ul>
                         </div>

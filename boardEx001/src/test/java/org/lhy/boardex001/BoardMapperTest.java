@@ -3,6 +3,7 @@ package org.lhy.boardex001;
 import org.junit.runner.RunWith;
 import org.lhy.boardex001.domain.BoardVo;
 import org.lhy.boardex001.mapper.BoardMapper;
+import org.lhy.boardex001.util.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -87,4 +88,11 @@ public class BoardMapperTest {
 			log.info("삭제 성공");
 		}
 	}
+	
+	@Test
+	public void tt() {
+		log.info(mapper.totalCount());
+		log.info("list+Paging");
+	}
+	
 }

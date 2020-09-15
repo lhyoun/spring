@@ -37,10 +37,13 @@ public class BoardController {
 	
 	@GetMapping("/list")
 	public void list(Criteria cri, Model model) {
-		log.info("list+Paging");
+		log.info("-- list+Paging");
+		log.info("-- pagenum: "+cri.getPageNum());
+		log.info("-- amount: "+cri.getAmount());
 		model.addAttribute("list", service.getList(cri));
 		
 		int total=service.getTotal();
+
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
 	}
@@ -66,7 +69,7 @@ public class BoardController {
 		log.info("get");
 		model.addAttribute("board", service.get(bno));
 	}
-	
+	 
 	@GetMapping("/modify")
 	public void modify(Long bno, Model model ) {
 		log.info("mofify(GetMapping)");
