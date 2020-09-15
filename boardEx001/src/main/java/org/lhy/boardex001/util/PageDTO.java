@@ -40,11 +40,9 @@ public class PageDTO {
 		
 		if(realEnd<=this.endPage)
 			endPage=realEnd;
-		// 
 		
 		this.prev=this.startPage>1;
 		// 현재 페이지가 5페이지면 start 페이지가 1이고 end가 10이다
-		// 
 		
 		this.next=this.endPage<realEnd;
 		// end페이지가 realeEnd페이지보다 작아야 다음으로 넘길 페이지가 있으니 True를 반환

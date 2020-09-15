@@ -27,127 +27,55 @@ public class BoardController {
 	
 	private BoardService service;
 	
-	//@GetMapping("/list")
-	public void list(Model model) {
-		log.info("list");
-		model.addAttribute("list", service.getList());
-	}// void라서 mapping과 같은 값을 return
-	
-	
-	
-	/*@GetMapping("/list")
-	public void list(Criteria cri, Model model) {
-		log.info("-- list+Paging");
-		log.info("-- pagenum: "+cri.getPageNum());
-		log.info("-- amount: "+cri.getAmount());
-		model.addAttribute("list", service.getList(cri));
-		
-		int total=service.getTotal(cri);
-
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		
-	}*/
-	
 	@GetMapping("/list")
 	public void list(Criteria cri,Model model) {
-		//log.info("listPaging..........!:"+cri);
-		//log.info("typeArr:"+cri.getTypeArr());
-		
 		model.addAttribute("list",service.getList(cri));
-		
 		int total=service.getTotal(cri);
-		PageDTO pageDTO=new PageDTO(cri,total);
-		//log.info("pageDto"+pageDTO);
-		
+		PageDTO pageDTO=new PageDTO(cri,total);		
 		model.addAttribute("pageMaker", pageDTO);
 	}
-	
-	
-	
-	@GetMapping("/register")
-	public void register() {
-		
+
+	@GetMapping("/get")		
+	public void get(Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
+		model.addAttribute("board", service.get(bno));
 	}
+	 
+	@GetMapping("/register")
+	public void register() {}
 	
-	@PostMapping("/register")	// 등록
+	@PostMapping("/register")
 	public String register(BoardVo board, RedirectAttributes rttr) {
-		//service.register(board);
-		//return "redirect:/board/list";
-		
-		log.info("registerPro");
 		service.register(board);
 		rttr.addFlashAttribute("result", board.getBno());
 		return "redirect:list";
 	}
 	
-	@GetMapping("/get")		// 상세보기
-	public void get(Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
-		log.info("get");
-		model.addAttribute("board", service.get(bno));
-	}
-	 
 	@GetMapping("/modify")
 	public void modify(Long bno, @ModelAttribute("cri") Criteria cri, Model model ) {
 		log.info("mofify(GetMapping)");
 		model.addAttribute("board", service.get(bno));
-	}// get은 @ModelAttribute("cri") Criteria cri만 해줘도 modify.jsp까지 간다
+	}
+	// get은 @ModelAttribute("cri") Criteria cri만 해줘도 modify.jsp까지 간다
 	
-	/*@GetMapping("/remove")	// 삭제
-	public String remove(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
-		if(service.remove(bno)) {
-			rttr.addFlashAttribute("result", bno+"삭제 성공");
-			return "redirect:/board/list";
-		}
-		else { 
-			return "redirect:/board/get";
-		}
-	}*/
-	
+	@PostMapping("/modify")
+	public String modify(BoardVo board, Criteria cri, RedirectAttributes rttr) {
+		if(service.modify(board)) rttr.addFlashAttribute("result", board.getBno()+"수정 성공");
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
+		return "redirect:/board/list";
+	}
+	// addFlashAttribute가 아니라 Attribute인 이유는 pageNum이랑 amount는 항상 가지고 다녀야 하기 때문
+
 	@GetMapping("/remove")
-	public String remove(@RequestParam("bno") Long bno,
-			@ModelAttribute("cri") Criteria cri,RedirectAttributes rttr) {
-		log.info("remove..."+bno);
-		if(service.remove(bno)) {
-			rttr.addFlashAttribute("result", bno+"삭제 성공");
-		}
+	public String remove(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri,RedirectAttributes rttr) {
+		if(service.remove(bno)) rttr.addFlashAttribute("result", bno+"삭제 성공");
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
 		return "redirect:/board/list";	
 	}
-	
-	@PostMapping("/modify")	// 수정
-	public String modify(BoardVo board, Criteria cri, RedirectAttributes rttr) {
-		if(service.modify(board)) {
-				rttr.addFlashAttribute("result", board.getBno()+"수정 성공");
-		}
-		rttr.addAttribute("pageNum", cri.getPageNum());
-		rttr.addAttribute("amount", cri.getAmount());
-		rttr.addAttribute("type", cri.getType());
-		rttr.addAttribute("keyword", cri.getKeyword());
-		return "redirect:/board/list";
-		//return "list";
-	}// addFlashAttribute가 아니라 Attribute인 이유는 pageNum이랑 amount는 항상 가지고 다녀야 하기 때문
-	
-	/*@PostMapping("/update")
-	public String update(BoardVO board) {
-		log.info("update");
-		if(service.modify(board)) {
-			return "redirect:list";
-		}else {
-			return "redirect:get";
-		}
-	}
-	
-	@GetMapping("/delete")
-	public String delete(Long bno) {
-		log.info("delete");
-		if(service.remove(bno)) {
-			return "redirect:list";
-		}else {
-			return "redirect:get";
-		}
-	}*/
 
 }

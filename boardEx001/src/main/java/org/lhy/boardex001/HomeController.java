@@ -37,5 +37,4 @@ public class HomeController {
 		return "redirect:/board/list";
 		//return "home";
 	}
-	
 }
