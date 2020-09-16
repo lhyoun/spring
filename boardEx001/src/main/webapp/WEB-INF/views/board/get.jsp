@@ -66,6 +66,64 @@
 	<input type='hidden' name='keyword' value='${cri.keyword}'>
 </form>
 
+
+			<div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        	<i class="fa fa-comments fa-fw">Reply</i>
+                        	<button id="addReplyBtn" class="btn btn-primary, btn-xs pull-right">New Reply</button>
+            			</div>
+            			<div class="panel-body">
+            				<ul class="chat">
+            					<!-- 여기에 댓글 리스트 출력 -->	
+            				</ul>
+            			</div>   
+            			<div class="panel-footer">
+            				
+            			</div>             
+                    </div>
+                </div>
+            </div>
+            
+            
+			<!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Reply Modal</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                           		<label>Reply</label>
+                           		<input class="form-controller" name="reply" value="reply">
+                           	</div>
+                           	
+                           	<div class="form-group">
+                           		<label>Replyer</label>
+                           		<input class="form-controller" name="replyer" value="replyer">
+                           	</div>
+                           	
+                           	<div class="form-group">
+                           		<label>ReplyDate</label>
+                           		<input class="form-controller" name="replydate" value="2020-01-01">
+                           	</div>
+                        </div>
+                        <div class="modal-footer">
+                        	<button id="modalModBtn" type="button" class="btn btn-warnig">Modify</button>
+                        	<button id="modalRemoveBtn" type="button" class="btn btn-danger">Remove</button>
+                            <button id="modalRegisterBtn" type="button" class="btn btn-primary">Register</button>
+                            <button id="modalCloseBtn" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            
 <script type="text/javascript">
 $(document).ready(function(){
 	var operForm=$("#operForm");
@@ -97,6 +155,28 @@ $(document).ready(function(){
 	console.log("===============");
 	console.log("JS TEST");
 	var bnoValue = '<c:out value="${board.bno}"/>';
+
+	var modal=$(".modal");
+	var modalInputReply=modal.find("input[name='reply']");
+	var modalInputReplyer=modal.find("input[name='replyer']");
+	var modalInputReplyDate=modal.find("input[name='replydate']");
+	
+	var modalModBtn=$("#modalModBtn");
+	var modalRemoveBtn=$("#modalRemoveBtn");
+	var modalRegisterBtn=$("#modalRegisterBtn");
+	
+	$("#modalCloseBtn").on("click",function(){
+		modal.modal('hide');
+	});
+	
+	$("#addReplyBtn").on("click",function(){
+		modal.find("input").val("");
+		modalInputReplyDate.closest("div").hide();
+		modal.find("button[id!='modalCloseBtn']").hide();
+		modalRegisterBtn.show();
+		$(".modal").modal("show");
+	});
+	
 	//for replyService add test
 	
 	/*replyService.get(5,function(data){
@@ -118,18 +198,19 @@ $(document).ready(function(){
 		alert("ERROR");
 	});*/
 	
-	replyService.getList({bno:bnoValue,page:1},function(list){
+	/*replyService.getList({bno:bnoValue,page:1},function(list){
 		for(var i=0, len=list.length||0; i<len; i++){
 			console.log(list[i]);
 		}
-	});
-	/*
-	replyService.add(
+	});*/
+	
+	
+	/*replyService.add(
 		{reply:"JS Test", replyer:"tester", bno:bnoValue} ,
 		function(result){
 		alert("RESULT: " + result);
-	}
-);*/
+	});*/
+	
 </script>
 
 
