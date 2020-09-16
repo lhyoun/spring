@@ -10,7 +10,7 @@
 		values(seq_reply.nextval, #{bno}, #{reply}, #{replyer})
 	</insert>
 	
-	<select id="read" resultType="package org.lhy.boardex001.domain.ReplyVo">
+	<select id="read" resultType="org.lhy.boardex001.domain.ReplyVo">
 		select * from tbl_reply where rno=#{rno}
 	</select>
 	
@@ -22,7 +22,7 @@
 		update tbl_reply set reply=#{reply}, updatedate=sysdate where rno=#{rno}
 	</update>
 	
-	<select id="getList" resultType="package org.lhy.boardex001.domain.ReplyVo">
+	<select id="getList" resultType="org.lhy.boardex001.domain.ReplyVo">
 		select rno, bno, reply, replyer, replydate, updatedate
 		from tbl_reply
 		where bno=#{bno}
