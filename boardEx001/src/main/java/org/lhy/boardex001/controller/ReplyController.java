@@ -31,10 +31,10 @@ public class ReplyController {
 	@PostMapping(value="/new", consumes="application/json", produces= {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> create(@RequestBody ReplyVo vo){
 		int insertCount=service.register(vo);
-		return insertCount==1? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		return insertCount==1? new ResponseEntity<>("reply add success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@GetMapping(value="/page/{bno}/{page}",
+	@GetMapping(value="/pages/{bno}/{page}",
 		produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public ResponseEntity<List<ReplyVo>> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno){
 		Criteria cri=new Criteria(page,10);
@@ -53,7 +53,7 @@ public class ReplyController {
 	@DeleteMapping(value= "/{rno}" ,produces = { MediaType.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> remove(@PathVariable("rno") Long rno) {
 		log.info("remove: " + rno);
-		return service.remove(rno) == 1 ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		return service.remove(rno) == 1 ? new ResponseEntity<>("reply delete success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH }, value = "/{rno}", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
@@ -61,7 +61,7 @@ public class ReplyController {
 		vo.setRno(rno);
 		log.info("rno: " + rno);
 		log.info("modify: " + vo);
-		return service.modify(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		return service.modify(vo) == 1 ? new ResponseEntity<>("reply modify success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }

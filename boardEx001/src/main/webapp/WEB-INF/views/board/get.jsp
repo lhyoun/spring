@@ -9,7 +9,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Board Register
+                            Board Re gister
                         </div>
                         <!-- /.panel-heading -->
 						<div class="panel-body">
@@ -29,8 +29,8 @@
 									<textarea class="form-control" rows="3" name="content" readonly>${board.content }</textarea>
 								</div>
 								
-								<div class="form-grop">
 									<label>writer</label>
+								<div class="form-grop">
 									<input class="form-control" name="writer" value="${board.writer }" readonly>
 								</div>
 								
@@ -90,4 +90,48 @@ $(document).ready(function(){
 	});
 });
 </script>
+
+<script type="text/javascript" src="/resources/js/reply.js"></script>
+
+<script type="text/javascript">
+	console.log("===============");
+	console.log("JS TEST");
+	var bnoValue = '<c:out value="${board.bno}"/>';
+	//for replyService add test
+	
+	/*replyService.get(5,function(data){
+		console.log(data);
+	});*/
+	
+	/*replyService.update(
+		{rno:5, bno:bnoValue, reply:"Modified reply"},
+		function(result){
+			alert("수정 성공");
+	});*/
+	
+	/*replyService.remove(6, function(count){
+		console.log(count);
+		if(count=="reply delete success"){
+			alert("삭제 성공");
+		}
+	}, function(err){
+		alert("ERROR");
+	});*/
+	
+	replyService.getList({bno:bnoValue,page:1},function(list){
+		for(var i=0, len=list.length||0; i<len; i++){
+			console.log(list[i]);
+		}
+	});
+	/*
+	replyService.add(
+		{reply:"JS Test", replyer:"tester", bno:bnoValue} ,
+		function(result){
+		alert("RESULT: " + result);
+	}
+);*/
+</script>
+
+
+
 <%@ include file="../include/footer.jsp" %>
