@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.lhy.boardex001.mapper.BoardMapper">
-
+<!-- board.bno하면 board에서 getBno()한 결과를 return. 즉 GetTypeArr()을 typeArr로 사용할 수 있다 -->
 	<sql id="criteria">
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
 			<foreach collection="typeArr" item="type">

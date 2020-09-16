@@ -48,6 +48,7 @@
 						<form id='searchForm' action="/board/list" method='get'>
 	 						<select name='type'>
 	 							<!-- <option value="asd">--</option> -->
+	 							<!-- selected가 선택하라는 동사의 의미 -->
 								<option value="" <c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
 								<option value="T" <c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
 								<option value="C" <c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
@@ -228,6 +229,8 @@ $(document).ready(function(){
 	var searchForm =$("#searchForm");
 	$("#searchForm button").on("click", function(e){
 		e.preventDefault();
+		// alert(searchForm.find("option:selected").val());
+		// selected는 만든 변수가 아니고 선택된 메뉴라는 뜻 
 		if(!searchForm.find("option:selected").val()){
 			alert("검색종류를 선택하세요");
 			return false;
