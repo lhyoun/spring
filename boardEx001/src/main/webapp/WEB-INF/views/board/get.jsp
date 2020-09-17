@@ -71,7 +71,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                        	<i class="fa fa-comments fa-fw">Reply</i>
+                        	<i class="fa fa-comments fa-fw">&nbsp;Reply</i>
                         	<button id="addReplyBtn" class="btn btn-primary, btn-xs pull-right">New Reply</button>
             			</div>
             			<div class="panel-body">
@@ -155,7 +155,28 @@ $(document).ready(function(){
 	console.log("===============");
 	console.log("JS TEST");
 	var bnoValue = '<c:out value="${board.bno}"/>';
-
+	var replyUL=$(".chat");
+	
+	function showList(page){
+		alert("a");
+		replyService.getList({bno:bnoValue,page: page|| 1 }, function(list) {
+			var str="";
+			if(list == null || list.length == 0){
+				replyUL.html("");
+				return;
+			}
+			for (var i = 0, len = list.length || 0; i < len; i++) {
+				str +="<li style='cursor:pointer' class='left clearfix' data-rno='"+list[i].rno+"'>";
+				str +=" <div><div class='header'><strong class='primaryfont'>"+list[i].replyer+"</strong>";
+				str +=" <small class='pull-right textmuted'>"+replyService.displayTime(list[i].replydate)+"</small></div>";
+				str +=" <p>"+list[i].reply+"</p></div></li>";
+			}
+			replyUL.html(str);
+		});//end function
+	}//end showList
+	
+	showList(1);
+	
 	var modal=$(".modal");
 	var modalInputReply=modal.find("input[name='reply']");
 	var modalInputReplyer=modal.find("input[name='replyer']");
@@ -210,6 +231,46 @@ $(document).ready(function(){
 		function(result){
 		alert("RESULT: " + result);
 	});*/
+	
+	modalRegisterBtn.on("click",function(e){
+		var reply = {
+			reply: modalInputReply.val(),
+			replyer:modalInputReplyer.val(),
+			bno:bnoValue
+			};
+		replyService.add(reply, function(result){
+			alert(result);
+			modal.find("input").val("");
+			modal.modal("hide");
+		});
+	});
+	
+	$(".chat").on("click", "li", function(e){
+		var rno = $(this).data("rno");
+		replyService.get(rno, function(reply){
+			modalInputReply.val(reply.reply);
+			modalInputReplyer.val(reply.replyer);
+			modalInputReplyDate.val(replyService.displayTime(reply.replydate)).attr("readonly","readonly");
+			modal.data("rno", reply.rno);	// modal에 표시는 안되지만 data를 지니고 있음
+			modal.find("button[id !='modalCloseBtn']").hide();
+			modalModBtn.show();
+			modalRemoveBtn.show();
+			$(".modal").modal("show");
+		});
+	});
+	
+	modalModBtn.on("click", function(e){
+		var reply = {
+			rno:modal.data("rno"), 
+			reply: modalInputReply.val()
+		};
+		replyService.update(reply, function(result){
+			alert(result);
+			modal.modal("hide");
+			showList(1);
+		});
+	});
+	
 	
 </script>
 
