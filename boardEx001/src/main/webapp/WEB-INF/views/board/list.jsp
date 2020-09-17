@@ -31,15 +31,17 @@
 										<th>작성자</th>
 										<th>작성일</th>
 										<th>수정일</th>
+										<th>조회수</th>
 									</tr>
 								</thead>
 								<c:forEach items="${list}" var="board">
 									<tr>
 										<td>${board.bno }</td>
-			                          	<td><a class="move" href="${board.bno}">${board.title }</a></td>
+			                          	<td><a class="move" href="${board.bno}">${board.title }&nbsp;[${board.replycount}]</a></td>
 			                          	<td>${board.writer }</td>
 			                          	<td><fmt:formatDate value="${board.regdate }" pattern="yyyy-MM-dd hh:mm:ss"/></td>
 			                          	<td><fmt:formatDate value="${board.updatedate }" pattern="yyyy-MM-dd hh:mm:ss"/></td>
+			                          	<td>${board.readcount }</td>
 									</tr>
 								</c:forEach>
 							</table>

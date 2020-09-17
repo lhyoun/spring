@@ -6,6 +6,7 @@ import org.lhy.boardex001.domain.BoardVo;
 import org.lhy.boardex001.mapper.BoardMapper;
 import org.lhy.boardex001.util.Criteria;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
@@ -24,9 +25,11 @@ public class BoardServiceImpl implements BoardService{
 		boardMapper.insertSelectKey(board);
 	}
 
+	@Transactional
 	@Override
 	public BoardVo get(Long bno) {
 		// TODO Auto-generated method stub
+		boardMapper.readCount(bno);
 		return boardMapper.read(bno);
 	}
 

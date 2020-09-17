@@ -71,7 +71,8 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                        	<i class="fa fa-comments fa-fw">&nbsp;Reply</i>
+                        	<%-- <i class="fa fa-comments fa-fw">&nbsp;Reply&nbsp;[${board.replycount}]</i> --%>
+                        	<i class="fa fa-comments fa-fw">&nbsp;Reply&nbsp;[<span class="replyCnt">${board.replycount}</span>]</i>
                         	<button id="addReplyBtn" class="btn btn-primary, btn-xs pull-right">New Reply</button>
             			</div>
             			<div class="panel-body">
@@ -165,6 +166,7 @@ $(document).ready(function(){
 				replyUL.html("");
 				return;
 			}
+			$(".replyCnt").html(list.length);
 			for (var i = 0, len = list.length || 0; i < len; i++) {
 				str +="<li style='cursor:pointer' class='left clearfix' data-rno='"+list[i].rno+"'>";
 				str +=" <div><div class='header'><strong class='primaryfont'>"+list[i].replyer+"</strong>";
@@ -242,6 +244,7 @@ $(document).ready(function(){
 			alert(result);
 			modal.find("input").val("");
 			modal.modal("hide");
+			showList(1);
 		});
 	});
 	

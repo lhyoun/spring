@@ -33,10 +33,10 @@
 
 	<select id="getListWithPaging" resultType="org.lhy.boardex001.domain.BoardVo">
 	  	<![CDATA[
-	  		select bno,title,content,writer,regdate,updatedate
+	  		select bno,title,content,writer,regdate,updatedate, readcount, replycount
 	  		from (
 	  			select /*+INDEX_DESC(board pk_board)*/
-	  			rownum rn, bno, title, content, writer, regdate, updatedate
+	  			rownum rn, bno, title, content, writer, regdate, updatedate, readcount, replycount
 	  			from board where 
 	  	]]>
 
@@ -81,6 +81,14 @@
 	<delete id="delete">
 		delete from board where bno=#{bno}
 	</delete>
+
+	<update id="readCount">
+		update board set readcount=readcount+1 where bno=#{bno}
+	</update>
+
+	<update id="replyCount">
+		update board set replycount=replycount+ #{amount} where bno=#{bno}
+	</update>
 
 	<update id="update">
 		update board set title=#{title}, content=#{content}, writer=#{writer}, updatedate=sysdate where bno=#{bno}

@@ -2,6 +2,7 @@ package org.lhy.boardex001.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.lhy.boardex001.domain.BoardVo;
 import org.lhy.boardex001.util.Criteria;
@@ -25,4 +26,9 @@ public interface BoardMapper {
 	public int delete(Long bno);
 	
 	public int totalCount(Criteria cri);
+	
+	public int readCount(Long bno);
+	
+	public int replyCount(@Param("amount") int amount, @Param("bno") Long bno);
+	// amount=1or-1
 }

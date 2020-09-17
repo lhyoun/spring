@@ -3,9 +3,11 @@ package org.lhy.boardex001.service;
 import java.util.List;
 
 import org.lhy.boardex001.domain.ReplyVo;
+import org.lhy.boardex001.mapper.BoardMapper;
 import org.lhy.boardex001.mapper.ReplyMapper;
 import org.lhy.boardex001.util.Criteria;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
@@ -15,11 +17,14 @@ import lombok.extern.java.Log;
 @AllArgsConstructor
 public class ReplyServiceImpl implements ReplyService {
 
-	ReplyMapper replyMapper;
+	private ReplyMapper replyMapper;
+	private BoardMapper boardMapper;
 	
+	@Transactional
 	@Override
 	public int register(ReplyVo vo) {
 		// TODO Auto-generated method stub
+		boardMapper.replyCount(1, vo.getBno());
 		return replyMapper.insert(vo);
 	}
 
@@ -35,9 +40,12 @@ public class ReplyServiceImpl implements ReplyService {
 		return replyMapper.update(vo);
 	}
 
+	@Transactional
 	@Override
 	public int remove(Long rno) {
 		// TODO Auto-generated method stub
+		ReplyVo vo=replyMapper.read(rno);
+		boardMapper.replyCount(-1, vo.getBno());
 		return replyMapper.delete(rno);
 	}
 
