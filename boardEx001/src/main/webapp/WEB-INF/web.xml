@@ -27,6 +27,14 @@
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+			
+		<!-- 파일 upload할 위치, 한 번에 올릴 수 있는 file size 설정하기 -->
+		<multipart-config>
+			<location>D:\\upload</location><!-- 저장 위치 -->
+			<max-file-size>20971520</max-file-size><!-- 한 번에 한 개 올릴 때의 최대 크기 -->
+			<max-request-size>41943040</max-request-size><!-- 한 번에 여러개 올릴 때의 최대 크기 -->
+			<file-size-threshold>20971520</file-size-threshold><!-- memory 크기 max file size랑 같아야 한다 -->
+		</multipart-config>
 	</servlet>
 
 	<servlet-mapping>
@@ -47,6 +55,7 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
+
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>

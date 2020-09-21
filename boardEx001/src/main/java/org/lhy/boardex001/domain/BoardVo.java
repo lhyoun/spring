@@ -1,6 +1,7 @@
 package org.lhy.boardex001.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -15,4 +16,5 @@ public class BoardVo {
 	private int readcount;
 	private int replycount;
 	
+	private List<BoardAttachVO> attachList;
 }
