@@ -17,6 +17,10 @@
 		select * from tbl_attach where bno=#{bno}
 	</select>
 	
+	<select id="deleteAll">
+		delete from tbl_attach where bno=#{bno}
+	</select>
+
 	<!-- <select id="getOldFiles" resultType="org.lhy.boardex001.domain.BoardAttachVO">
 		select * from tbl_attach where uploadpath=to_char(sysdate-1, 'yyyy\mm\dd')
 	</select> -->

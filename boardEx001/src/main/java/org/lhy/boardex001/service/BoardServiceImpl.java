@@ -2,6 +2,7 @@ package org.lhy.boardex001.service;
 
 import java.util.List;
 
+import org.lhy.boardex001.domain.BoardAttachVO;
 import org.lhy.boardex001.domain.BoardVo;
 import org.lhy.boardex001.mapper.BoardAttachMapper;
 import org.lhy.boardex001.mapper.BoardMapper;
@@ -54,11 +55,14 @@ public class BoardServiceImpl implements BoardService{
 			return false;
 	}
 
+	@Transactional
 	@Override
 	public boolean remove(Long bno) {
 		// TODO Auto-generated method stub
+		attachMapper.deleteAll(bno);
 		int n=boardMapper.delete(bno);
 		if(n==1) 
+			
 			return true;
 		else
 			return false;
@@ -80,6 +84,13 @@ public class BoardServiceImpl implements BoardService{
 	public int getTotal(Criteria cri) {
 		// TODO Auto-generated method stub
 		return boardMapper.totalCount(cri);
+	}
+
+	@Override
+	public List<BoardAttachVO> getAttachList(Long bno) {
+		// TODO Auto-generated method stub
+		log.info("get Attach list bo bno"+bno);
+		return attachMapper.findByBno(bno);
 	}
 	
 }

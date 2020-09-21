@@ -2,6 +2,7 @@ package org.lhy.boardex001.service;
 
 import java.util.List;
 
+import org.lhy.boardex001.domain.BoardAttachVO;
 import org.lhy.boardex001.domain.BoardVo;
 import org.lhy.boardex001.util.Criteria;
 
@@ -13,4 +14,5 @@ public interface BoardService {
 	public List<BoardVo> getList();
 	public List<BoardVo> getList(Criteria cri);
 	public int getTotal(Criteria cri);
+	public List<BoardAttachVO> getAttachList(Long bno);
 }
