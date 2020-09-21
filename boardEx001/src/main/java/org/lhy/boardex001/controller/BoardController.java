@@ -96,6 +96,11 @@ public class BoardController {
 		 	추가로 getBno를 가져가는 이유는 내가 등록한 게시글 번호가 25번이면 리스트로 돌아감과 동시에 "25번 게시물이 등록되었습니다"라는 modal을 띄우기 위함
 		 	만약 여기서 추가한 bno를 보내주지 않으면 listpage에서는 내가 방금 추가한 게시물의 번호가 몇 번인지 알 수 없기 때문
 		 	<list.jsp script부분 function checkModal(result)에 관한 내용>*/
+		
+		if(board.getAttachList()!=null) {
+			board.getAttachList().forEach(attach->log.info("첨부파일 리스트: "+attach));
+		}
+		
 		service.register(board);
 		rttr.addFlashAttribute("result", board.getBno());
 		return "redirect:list";

@@ -3,6 +3,7 @@ package org.lhy.boardex001.service;
 import java.util.List;
 
 import org.lhy.boardex001.domain.BoardVo;
+import org.lhy.boardex001.mapper.BoardAttachMapper;
 import org.lhy.boardex001.mapper.BoardMapper;
 import org.lhy.boardex001.util.Criteria;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,26 @@ import lombok.extern.java.Log;
 public class BoardServiceImpl implements BoardService{
 	
 	private BoardMapper boardMapper;
+	private BoardAttachMapper attachMapper;
 	
 	@Override
+	@Transactional
 	public void register(BoardVo board) {
 		// TODO Auto-generated method stub
 		//boardMapper.insert(board);
 		boardMapper.insertSelectKey(board);
+		
+		if(board.getAttachList()==null||board.getAttachList().size()<=0) {
+			return;
+		}
+		board.getAttachList().forEach(attach->{
+			attach.setBno(board.getBno());
+			attachMapper.insert(attach);
+		});
 	}
 
-	@Transactional
 	@Override
+	@Transactional
 	public BoardVo get(Long bno) {
 		// TODO Auto-generated method stub
 		boardMapper.readCount(bno);
