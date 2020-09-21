@@ -244,7 +244,7 @@ $(document).ready(function(e){
 				// 화면(ul의 li들)에 띄워준다
 				console.log(result);
 				showUploadedResult(result);
-				$(".uploadDiv").html(cloneObj.html());
+				//$(".uploadDiv").html(cloneObj.html());
 			}
 		});
 	}); 
