@@ -20,6 +20,9 @@ public class ReplyServiceImpl implements ReplyService {
 	private ReplyMapper replyMapper;
 	private BoardMapper boardMapper;
 	
+	/*	메서드를 하나의 트랜잭션으로 처리하고자 할 때 @Transactional를 사용하는데,
+		이렇게 하면 이 메서드 모든 내용을 성공적으로 처리해야지만 db에 적용되고 
+		하나라도 문제가 생기면 모든 작업이 취소된다*/
 	@Transactional
 	@Override
 	public int register(ReplyVo vo) {

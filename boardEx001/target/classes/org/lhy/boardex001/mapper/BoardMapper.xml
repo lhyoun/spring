@@ -4,9 +4,53 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.lhy.boardex001.mapper.BoardMapper">
+<!-- namespace에 이 xml을 참조할 경로를 적어주면 된다 
+	 참고로 mapper의 역할은 다음과 같다 -
+	 MyBatis 사용 목적 중 하나는 DAO로부터 SQL문을 분리하는 것이다
+	 분리된 SQL문은 SQL mapper 파일에 작성하며 DAO에서는 SqlSession 객체가 SQL mapper 파일을 참조하게 된다	-->
+
 <!-- board.bno하면 board에서 getBno()한 결과를 return. 즉 GetTypeArr()을 typeArr로 사용할 수 있다 -->
 	<sql id="criteria">
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+		<!-- 아래의 getListWithPaging에 이 criteria sql이 include 되는데 getListWithPaging를 예로 설명을 하면
+		
+			select bno,title,content,writer,regdate,updatedate, readcount, replycount
+		  		from (
+		  			select /*+INDEX_DESC(board pk_board)*/
+		  			rownum rn, bno, title, content, writer, regdate, updatedate, readcount, replycount
+		  			from board where
+	  			
+	  		 이 다음에 criteria가 들어오게 된다. 우선 위에 적힌 prefix로 "(" 의 의미는 where뒤에 "("를 넣는다
+	  		 
+	  		 다음에는 foreach의 내용이 들어오는데 collection은 검색 하고자하는 type값이 들어온다. 입력값을 받아서 "type"이라는 이름으로 사용할건데, 
+	  		 입력값을 제목,내용이라고 가정해 보겠다. 그럼 getTypeArr에 의해서 배열로 T,C가 들어오게 된다 (T,C에 대해서 for문 돌림)
+	  		 
+	  		 일단 T부터. prefix에 OR이 있으니 OR을 붙이면 "where(or" 이렇게 되는데 이러면 문법에 맞지 않기 때문에 or을 제거해 줘야한다
+	  		 그래서 추가한 것이 위에 보이는 prefixOverrides="OR". 대충 첫 번째 or은 제거해라 라고 생각해도 무방
+	  		 
+	  		 다시 T에 대해 foreach문 돌리면 <when test="type=='T'.toString()"> 이 조건이 만족하기 때문에 "where(" 뒤에 다음과 같은 문장이 붙게 된다
+	  		 title like '%'||#{keyword}||'%'
+	  		 그리고 prefix에의해 OR이 붙고
+	  		 
+	  		  그 다음 for문 tpye의 값은 C이다. <when test="type=='C'.toString()"> 이 조건이 만족하기 때문에 다음의 문장도 추가된다. 
+	  		 content like '%'||#{keyword}||'%'
+	  		 
+	  		  즉 다음과 같은 문장이 완성된다
+	  		 where(title like '%'||#{keyword}||'%' or content like '%'||#{keyword}||'%'
+	  		  여기까지 하고 for가 끝나고 위에있는  suffix=") AND"에 의해
+	  		   
+	  		 where(title like '%'||#{keyword}||'%' or content like '%'||#{keyword}||'%') AND
+	  		  여기까지 완성
+	  		  
+	  		  그리고 그 뒤 내용을 추가해서 쿼리를 완성하게 된다 (getListWithPaging에 include뒤에 두 번째 CDATA[]내용)
+	  		 
+	  		 rownum <=#{pageNum} * #{amount}
+	  		 )
+	  		 where rn>(#{pageNum}-1)* #{amount}
+	  	
+	  		  이렇게 쿼리 이어 붙여서 최종으로 완성된 쿼리를 "getListWithPaging"의 이름으로 사용하게 된다
+	  		  
+	  		  기타 한 줄짜리 쿼리, ReplyMapper는 주석 생략하겠습니다.-->
 			<foreach collection="typeArr" item="type">
 				<trim prefix="OR">
 					<choose>
@@ -25,6 +69,7 @@
 		</trim>
 	</sql>
 
+	<!-- resultType, parameterType은 각각 return값, 입력값인데 parameterType은 안써줘도 무방 -->
 
 	<select id="getList"
 		resultType="org.lhy.boardex001.domain.BoardVo">
@@ -32,6 +77,7 @@
 	</select>
 
 	<select id="getListWithPaging" resultType="org.lhy.boardex001.domain.BoardVo">
+		<!-- ![CDATA[여기] 여기에 적은 내용은 모두 sql로 인식한다. <>,"" 이런거 때문에 ![CDATA[] 안 쓰면 중간에 끊김 -->
 	  	<![CDATA[
 	  		select bno,title,content,writer,regdate,updatedate, readcount, replycount
 	  		from (
@@ -41,7 +87,8 @@
 	  	]]>
 
 		<include refid="criteria"></include>
-  	
+  		<!-- 여기에 criteria로 저장된 aql문을 넣어라는 뜻 -->
+  		
 	  	<![CDATA[		
 	  			rownum <=#{pageNum} * #{amount}
 	  			)
@@ -61,7 +108,7 @@
 	  ]]>
 
 	</select>
-
+	
 	<select id="read" resultType="org.lhy.boardex001.domain.BoardVo" parameterType="long">
 		select * from board where bno = #{bno}
 	</select>
@@ -93,13 +140,4 @@
 	<update id="update">
 		update board set title=#{title}, content=#{content}, writer=#{writer}, updatedate=sysdate where bno=#{bno}
 	</update>
-
-	<!-- <select id="getListWithPaging" resultType="org.lhy.boardex001.domain.BoardVo"> 
-		<![CDATA[ select rn, bno, title, content, writer, regdate, updatedate from( 
-		select /*+INDEX_DESC(board pk_board)*/ rownum rn, bno, title, content, writer, 
-		regdate, updatedate from board where rownum <=#{pageNum} * #{amount} ) where 
-		rn>(#{pageNum}-1)*#{amount} ]]> </select> -->
-
-	<!-- <select id="totalCount" resultType="int"> <![CDATA[ select count(*) 
-		from board where bno>0 ]]> bno>0 하는 이유는 index를 사용해서 빠르게 가져오라고 </select> -->
 </mapper>
